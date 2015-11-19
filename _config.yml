@@ -1,0 +1,9 @@
+# Site settings
+title: heap.ch
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://heap.ch" # the base hostname & protocol for your site
+twitter_username: stepmuel
+github_username:  stepmuel
+
+# Build settings
+markdown: kramdown
