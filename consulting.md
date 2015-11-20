@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Consulting
+header: Müller Computer Engineering
 permalink: /consulting/
 ---
 
