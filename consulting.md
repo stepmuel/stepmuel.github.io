@@ -5,13 +5,18 @@ header: Müller Computer Engineering
 permalink: /consulting/
 ---
 
-I am currently doing contract work. I write iOS apps since 2013 and have been writing web based administration tools and services for over 10 years. If you need a iOS app (iPhone, iPad, Apple TV) or a Web app, send me an email: stephan<span class="nospam">@</span>heap.ch
+I write iOS apps since 2013 and have been writing web based administration tools and services for over 10 years. I created several Minecraft plugins and a telemetry system to collect data for scientific research. If you need an iOS app (iPhone, iPad, Apple TV), a Web app, a Minecraft plugin, or something else that fits my profile, send me an email: stephan<span class="nospam">@</span>heap.ch
 
 # Portfolio
 
 **Sius AG** *2015*
 
 * Evaluation and prototyping of distributed computing platform
+
+**HeapCraft** *2014 – 2015*
+
+* Telemetry system for player behavior analysis in Minecraft
+* Scientific analysis of the collected data
 
 **Schindler Elevator CO.** *2013 – 2014*
 
