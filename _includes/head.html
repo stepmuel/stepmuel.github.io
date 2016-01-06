@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% if page.redirect %}<meta http-equiv="refresh" content="0; url={{ page.redirect }}" />{% endif %}
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <link rel="icon" href="/res/favicon.png">
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description }}{% endif %}">
   <script>
     if (document.location.hostname=="heap.ch") {
@@ -21,7 +22,7 @@
   <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <meta property="og:site_name" content="heap.ch">
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:image" content="http://heap.ch/res/logo.png">
+  <meta property="og:image" content="http://heap.ch/res/heap_ic.png">
   <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description }}{% endif %}">
   <meta property="og:type" content="{% if page.layout == "post" %}article{% else %}website{% endif %}">
 </head>
