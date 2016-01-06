@@ -8,5 +8,7 @@ highlighter: pygments
 
 permalink: /blog/:categories/:year/:month/:day/:title/
 
+description: "Welcome to heap.ch, a programming blog written by Stephan Müller."
+
 # Build settings
 markdown: kramdown
