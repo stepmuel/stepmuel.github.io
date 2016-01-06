@@ -83,7 +83,7 @@ The simple API covers a surprisingly large amount of SQL scenarios. The generic 
 $dbl = new SJMSQLayer($pdo);
 $dbl->query('INSERT INTO books %I', $data);
 $dbl->query('UPDATE foo SET %S WHERE %W', $data, $where);
-$dbl->query('SELECT name FROM books WHERE %W');
+$dbl->query('SELECT name FROM books WHERE %W', $where);
 $dbl->query('DELETE FROM books WHERE %W', $where);
 {% endhighlight %}
 
@@ -101,7 +101,6 @@ class SJMSQLayerStatement {
 	public function getAll($key=false);
 	public function getDict($dictKey, $valueKey=false);
 	public function getGroup($groupKey, $valueKey=false);
-	public function lastInsertId();
 }
 {% endhighlight %}
 
