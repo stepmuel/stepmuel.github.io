@@ -15,6 +15,21 @@
       ga('create', 'UA-71606918-1', 'auto');
       ga('send', 'pageview');
     }
+    function camelWrap(node) {
+      camelWrapUnicode(node);
+      node.innerHTML = node.innerHTML.replace(/\u200B/g, "<wbr>");
+    }
+    function camelWrapUnicode(node) {
+      for (node=node.firstChild; node; node=node.nextSibling){
+        if (node.nodeType==Node.TEXT_NODE) {
+          node.nodeValue = node.nodeValue.replace(/[\w:]{18,}/g, function(str) {
+            return str.replace(/:/g, ":\u200B").replace(/([a-z])([A-Z])/g, "$1\u200B$2");
+          });
+        } else {
+          camelWrapUnicode(node);
+        }
+    }
+}
   </script>
   <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
