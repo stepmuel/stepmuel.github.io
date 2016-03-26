@@ -33,7 +33,7 @@ function camelWrap(node) {
   node.innerHTML = node.innerHTML.replace(/\u200B/g, "<wbr>");
 }
 function camelWrapUnicode(node) {
-  for (node = node.firstChild; node; node = node.nextSibling){
+  for (node = node.firstChild; node; node = node.nextSibling) {
     if (node.nodeType==Node.TEXT_NODE) {
       node.nodeValue = node.nodeValue.replace(/[\w:]{18,}/g, function(str) {
         return str.replace(/([a-z])([A-Z])/g, "$1\u200B$2");
@@ -41,6 +41,7 @@ function camelWrapUnicode(node) {
     } else {
       camelWrapUnicode(node);
     }
+  }
 }
 ```
 
