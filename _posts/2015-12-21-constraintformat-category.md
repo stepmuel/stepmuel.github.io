@@ -13,7 +13,7 @@ I'm not a huge fan of the Xcode Interface Builder. It feels slow, unpolished and
 
 When creating layouts programmatically, auto layout can still be a big help as it can replace a lot of annoying math done in the `layoutSubviews` method. The [visual format language](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html) makes laying out views as easy as creating ASCII art. But more often than not, I know exactly which individual constraints I want to use and would like to add them directly. In code, this might look like this:
 
-{% highlight objective-c %}
+```objective_c
 NSLayoutConstraint *c1, *c2, *c3, *c4;
 c1 = [NSLayoutConstraint constraintWithItem:v1
                                   attribute:NSLayoutAttributeTop
@@ -44,7 +44,7 @@ c4 = [NSLayoutConstraint constraintWithItem:v1
                                  multiplier:1.0
                                    constant:0.0];
 [self addConstraints:@[c1, c2, c3, c4]];
-{% endhighlight %}
+```
 
 This code will make the frame of view v1 match v2. A lot of typing for such a simple task! I could probably save a couple of lines by using the visual format language, but I don't even know which format strings I had to use to achieve the same result. 
 
@@ -52,14 +52,14 @@ This code will make the frame of view v1 match v2. A lot of typing for such a si
 
 To simplify the creation of single constraints, I came up with a very simple format language. It only allows the creation of one constraint at a time, and is implemented as a UIView category (UIView+ConstraintFormat). It will significantly simplify the example above. 
 
-{% highlight objective-c %}
+```objective_c
 // syntax: view1.attribute1 = multiplier * view2.attribute2 + constant
 NSDictionary *views = NSDictionaryOfVariableBindings(v1, v2);
 [self addConstraintWithFormat:@"v1.top = v2.top" views:views];
 [self addConstraintWithFormat:@"v1.bottom = v2.bottom" views:views];
 [self addConstraintWithFormat:@"v1.left = v2.left" views:views];
 [self addConstraintWithFormat:@"v1.right = v2.right" views:views];
-{% endhighlight %}
+```
 
 My category provides two more functions I frequently use. `addConstraintsForView:toFillView:` will implement the initial example, and `addConstraintsForView:toFillViewController:` will make a view cover the view of a view controller, excluding the top- and bottom bar (if visible). 
 

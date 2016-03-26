@@ -17,7 +17,7 @@ Unfortunately, none of those conveniences are available in PHP. There are a coup
 
 # Solutions
 
-{% highlight php startinline %}
+```php?start_inline=1
 // Solution 1: The standard way
 if (array_key_exists($key, $dict)) {
   $foo = $dict[$key];
@@ -30,7 +30,7 @@ $foo = isset($dict[$key]) ? $dict[$key] : null;
 
 // Solution 3: The hacky way
 $foo = @$dict[$key];
-{% endhighlight %}
+```
 
 Solution 1 is the way it probably should be done. It behaves the same as Python's get method and `null` can be replaced by a default value. But it takes a lot of typing and understanding the code requires following the control flow. 
 
@@ -42,19 +42,19 @@ Solution 3 uses the `@` error control operator to suppress the any error message
 
 Since in PHP dictionaries are arrays and arrays are not objects, we can't define a get method. But we can define a global function to make solution 1 easier to use.
 
-{% highlight php startinline %}
+```php?start_inline=1
 function array_get($dict, $key, $default=null) {
 	return array_key_exists($key, $dict) ? $dict[$key] : $default;
 }
-{% endhighlight %}
+```
 
 Wonderful! But can we make it even simpler? The function has 3 arguments and their order has to be remembered. The name could be shorter, but since the function only works with arrays, this should be reflected somehow. 
 
-{% highlight php startinline %}
+```php?start_inline=1
 function get(&$var, $default=null) {
     return isset($var) ? $var : $default;
 }
-{% endhighlight %}
+```
 
 `get` is based on solution 2 and solves both problems. The function is no longer limited to arrays so we can shorten the name. It has only 2 arguments, one of them optional. The functionality of `array_get` can be approached with `get($dict[$key], $default)`. `get($dict[$key])` is almost as simple as solution 3. But how does it work?
 
@@ -66,23 +66,23 @@ The `&` in front of the `$var` argument causes the variable to be passed by refe
 
 The `get` helper function can make developing in PHP a little bit quicker and less error prone. While I try to avoid defining global functions in larger projects, I often use it in prototypes or simple scripts. 
 
-{% highlight php startinline %}
+```php?start_inline=1
 // `get` usage examples
 $test = array('foo'=>'bar');
 get($test['foo'],'nope'); // bar
 get($test['baz'],'nope'); // nope
 get($test['spam']['eggs'],'nope'); // nope
 get($undefined,'nope'); // nope
-{% endhighlight %}
+```
 
 Unfortunately, using the `get` function will define and set the variable to `null` if it hasn't been defined before. `isset` will still return `false` and method 2 and 3 will still work afterwards, but `array_key_exists` will return `true`. This is usually not a problem but can lead to unexpected results.  
 
-{% highlight php startinline %}
+```php?start_inline=1
 // Running the previous code left some residue:
 json_encode($test); // {"foo":"bar","baz":null,"spam":{"eggs":null}}
 $undefined===null; // true (no error; got defined by passing it to get)
 isset($undefined) // false
 get($undefined,'nope'); // nope
-{% endhighlight %}
+```
 
 I hope you enjoyed the read! 

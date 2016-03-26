@@ -4,7 +4,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://heap.ch" # the base hostname & protocol for your site
 twitter_username: stepmuel
 github_username:  stepmuel
-highlighter: pygments
+highlighter: rouge
+# highlighter: pygments
 
 permalink: /blog/:categories/:year/:month/:day/:title/
 
@@ -12,3 +13,6 @@ description: "Welcome to heap.ch, a programming blog written by Stephan Müller.
 
 # Build settings
 markdown: kramdown
+kramdown:
+  input: GFM
+

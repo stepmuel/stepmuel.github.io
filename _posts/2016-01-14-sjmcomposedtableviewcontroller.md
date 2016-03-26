@@ -21,7 +21,7 @@ I also suspect that the traditional approach hinders experimentation. Should a t
 
 My solution is a generic tableview controller where cells can be added in code. 
 
-{% highlight objective-c %}
+```objective_c
 @interface SJMComposedTableViewController : UITableViewController
 - (void)addCell:(UITableViewCell *)cell;
 - (void)addSection;
@@ -29,11 +29,11 @@ My solution is a generic tableview controller where cells can be added in code.
 - (void)setSectionFooter:(NSString *)footer;
 - (void)reset;
 @end
-{% endhighlight %}
+```
 
 The methods should be more or less self explanatory. Cells and section separators can be appended like it was a list. A header or footer can be defined for the current section. `reset` removes all sections and cells. 
 
-{% highlight objective-c %}
+```objective_c
 SJMComposedTableViewController *vc;
 vc = [[SJMComposedTableViewController alloc] init];
 vc.title = @"Test";
@@ -41,7 +41,7 @@ SJMActiveCell *cell = [SJMActiveCell cell];
 cell.key = @"Hi";
 [vc addCell:cell];
 [self.navigationController pushViewController:vc animated:YES];
-{% endhighlight %}
+```
 
 The example creates a new table view controller in place, adds a single cell and pushes it onto the navigation stack. Since the cells are added in code, they can be created dynamically (e.g. from an array of options). I usually save a reference to cells I need to change later, so I don't have to reconstruct the table if a value changes. (`[tableview reloadData]` can lead to a weird user experience, e.g. by interrupting animations.)
 
@@ -53,7 +53,7 @@ You might have noticed that `SJMComposedTableViewController` doesn't reuse cells
 
 Any `UITableViewCell` can be added to `SJMComposedTableViewController`, but its true power becomes apparent when using `SJMActiveCell`. The active cell provides a block that is called when the cell is selected within a composed table. 
 
-{% highlight objective-c %}
+```objective_c
 SJMActiveCell *cell = [SJMActiveCell cell];
 cell.key = @"Is this useful?";
 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -72,11 +72,11 @@ cell.actionBlock = ^(SJMActiveCell *cell) {
     [self.navigationController pushViewController:vc animated:YES];
 };
 [self addCell:cell];
-{% endhighlight %}
+```
 
 The example shows a simple cell asking a question. When tapped, an answer can be chosen in a new table that is dismissed automatically upon selection. The view controller with the answers is only created when needed, and deallocated automatically afterwards. No additional classes or files are required. 
 
-{% highlight objective-c %}
+```objective_c
 @interface SJMActiveCell : UITableViewCell
 + (SJMActiveCell *)cell;
 @property (strong, nonatomic) NSString *key;
@@ -86,7 +86,7 @@ The example shows a simple cell asking a question. When tapped, an answer can be
 @property (strong, nonatomic) void (^actionBlock)(SJMActiveCell *cell);
 - (void)deselectAnimated:(BOOL)animated;
 @end
-{% endhighlight %}
+```
 
 The `key` and `value` properties are just accessors for the text of their textLabel and detailTextLabel. `height` will tell the composed table to use a custom height (unless its 0). `enabled` can be used to disable a cell, which will grey out the cell and make the action block unavailable. If `actionBlock` is set, the cell will be selectable and the block will be called upon selection. 
 

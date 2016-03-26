@@ -23,29 +23,29 @@ While it is certainly possible to write secure code in PHP, the language doesn't
 
 Let's start with with a simple table in SQLite.
 
-{% highlight sql %}
+```sql
 CREATE TABLE books (
   id INTEGER PRIMARY KEY,
   title TEXT,
   published INTEGER,
   pages INTEGER
 );
-{% endhighlight %}
+```
 
 Relational databases map very well to arrays of dictionaries. By using the `PDO::FETCH_ASSOC` fetch style, a row from the table above might look like this:
 
-{% highlight json %}
+```json
 {
   "id": 3,
   "title": "Don Quixote",
   "published": 1605,
   "pages": 992
 }
-{% endhighlight %}
+```
 
 But how do we insert such a row into the table? The SQL we want is simple. But why do we have to write it at all, when we already have the dictionary with all the information? Many `WHERE` statements have the form `key1=val1 AND key2=val2 AND etc.` which can be represented by a dictionary equally well. 
 
-{% highlight sql %}
+```sql
 INSERT INTO books (id, title, published, pages) 
    VALUES (3, "Don Quixote", 1605, 992);
 UPDATE books
@@ -53,11 +53,11 @@ UPDATE books
    WHERE published = 1605 AND pages = 992;
 SELECT name FROM books WHERE id = 3;
 DELETE FROM books WHERE published = 1605;
-{% endhighlight %}
+```
 
 My desire to use dictionaries for database access led to my first SQL API, which I named SJMTable.
 
-{% highlight php startinline %}
+```php?start_inline=1
 class SJMTable {
     public function __construct($pdo, $table);
     public function insert($data, $args=array());
@@ -65,7 +65,7 @@ class SJMTable {
     public function select($keys, $where, $args=array());
     public function delete($where, $args=array());
 }
-{% endhighlight %}
+```
 
 The constructor needs a PDO object connected to a database and the name of a table. `$data` contains data to insert or update, and `$where` is used to create a `WHERE` statement by connecting the entries with `AND` (key1 = value1 AND key2 = value2 etc.). `$args` allows to optionally add order keys, limits and offsets, or simply append some SQL to the end of the query. The select function returns an array containing the fetched rows, insert returns the primary key of the new row and the other functions return the number of affected rows. 
 
@@ -73,7 +73,7 @@ The constructor needs a PDO object connected to a database and the name of a tab
 
 The simple API covers a surprisingly large amount of SQL scenarios. The generic `$args` argument adds some flexibility, but the solution seems a bit "hacky" and still doesn't cover all possibilities. Especially joins would be very complex to add support for. Instead of adding all this complexity to the API, we can solve all our problems by introducing a single function that works similar to `printf` and a format syntax to replicate the previous functionality. 
 
-{% highlight php startinline %}
+```php?start_inline=1
 // Syntax:
 // %@ -> quoted value/list
 // %K -> unquoted value/list
@@ -85,7 +85,7 @@ $dbl->query('INSERT INTO books %I', $data);
 $dbl->query('UPDATE foo SET %S WHERE %W', $data, $where);
 $dbl->query('SELECT name FROM books WHERE %W', $where);
 $dbl->query('DELETE FROM books WHERE %W', $where);
-{% endhighlight %}
+```
 
 The resulting code is compact and very easy to read for everyone who knows SQL. `%W`, `%S` and `%I` provide the same conveniences as the previous API and `%@` and `%K` allow to insert additional quoted or unquoted variables. When using an array as argument, things like `WHERE id IN (%@)` lead to valid and perfectly quoted SQL. 
 
@@ -93,7 +93,7 @@ The resulting code is compact and very easy to read for everyone who knows SQL. 
 
 The query function returns a SJMSQLayerStatement object. That object handles a couple of common things you might want to do with SQL queries or allows you to simply get the generated SQL string.
 
-{% highlight php startinline %}
+```php?start_inline=1
 class SJMSQLayerStatement {
 	public $sql = null;
 	public function exec();
@@ -102,17 +102,17 @@ class SJMSQLayerStatement {
 	public function getDict($dictKey, $valueKey=false);
 	public function getGroup($groupKey, $valueKey=false);
 }
-{% endhighlight %}
+```
 
 By using method chaining, the functionality of SJMTable can still be achieved by single lines.
 
-{% highlight php startinline %}
+```php?start_inline=1
 $dbl->query("DROP TABLE %K", "books")->exec();
-{% endhighlight %}
+```
 
 `get` returns a single row from a `SELECT` query, `getAll` returns an array with all rows. `getDict` will also return all rows, but instead of an array, the result will be a dictionary where each row is addressed by its value of `$dictKey`. `getGroup` is used if the value by which the rows are addressed is not unique. It will return a dictionary of arrays. Using the optional parameters `$key` and `$valueKey` will fetch single values instead of the whole rows. 
 
-{% highlight php startinline %}
+```php?start_inline=1
 $stm = $dbl->query("SELECT * FROM books");
 // get array of all book id's
 $stm->getAll("id");
@@ -120,7 +120,7 @@ $stm->getAll("id");
 $stm->getDict("id", "title");
 // get a dictionary of book id's by year
 $stm->getDict("published", "id");
-{% endhighlight %}
+```
 
 # Source Code
 

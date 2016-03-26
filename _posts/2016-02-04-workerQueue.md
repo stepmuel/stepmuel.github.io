@@ -25,7 +25,7 @@ In addition to the separation of data, web workers also try to separate code. Ne
 
 I was able to work around those limitations by using the [data URI scheme](https://en.wikipedia.org/wiki/Data_URI_scheme) to eliminate the need for additional script files and `eval` in combination with `Function.prototype.toString` to move code to the web worker thread. 
 
-{% highlight javascript %}
+```javascript
 // message handler for generic worker
 var onmessage = function(e) {
   var d = e.data;
@@ -38,11 +38,11 @@ var onmessage = function(e) {
 var code = "this.onmessage = " + onmessage.toString();
 var blob = new Blob([code], {type: "text/javascript"});
 var worker = new Worker(window.URL.createObjectURL(blob));
-{% endhighlight %}
+```
 
 This web worker is extremely simple, yet very powerful. It executes any code it receives as a string with the given arguments and sends the result back to the sender. `transferList` enables the code to specify parts of its result as transferable by appending them to the list. The message handler can even be used to define new functions within the worker namespace.
 
-{% highlight javascript %}
+```javascript
 // define the `say` function within the worker
 var setup = function() {
   this.say = function(msg) {
@@ -56,7 +56,7 @@ var test = function(args) {
 // send both functions to the worker for execution
 worker.postMessage({code: '('+setup.toString()+')'});
 worker.postMessage({code: '('+test.toString()+')', args: ["hi world"]});
-{% endhighlight %}
+```
 
 I use `toString` instead of defining the functions within a string directly in order to get syntax highlighting and proper indentation handling by text editors. But since the function is converted to a string first, setting breakpoints won't work in Chrome. 
 
@@ -70,7 +70,7 @@ I decided to create an interface similar to Apple's [Grand Central Dispatch](htt
 
 On iOS, there is a serial (single threaded) main queue responsible for all UI updates. To avoid blocking the UI, a long task triggered within the main queue can be sent to a background queue. When finished, the background task then adds a new task to the main queue which shows the result on the UI. Using this model, thread synchronization, semaphores and other potential headache inducing shenanigans can be avoided. I simply use the JavaScript event loop as the main queue. 
 
-{% highlight javascript %}
+```javascript
 // workerQueue interface
 function workerQueue() {
   this.worker = {}; // worker prototype
@@ -78,13 +78,13 @@ function workerQueue() {
   this.delay = 0;
   this.add = function(func, args, callback);
 };
-{% endhighlight %}
+```
 
 `add` enqueues a function to the worker queue with the given argument. The function is then executed by a web worker in the background. After the function returns, `callback` is executed back in the main event loop with the function's return value. `maxWorkers` can be increased to execute multiple functions in parallel by creating additional workers when necessary.  
 
 Before using the queue, functions and other properties can be assigned to `worker`. They are automatically copied to the worker thread when a new worker is initialized. If the function `worker.init` is defined, it is called in the web worker context after copying all the properties. 
 
-{% highlight javascript %}
+```javascript
 var wq = new workerQueue();
 // build worker prototype (optional)
 wq.worker.foo = 21;
@@ -100,7 +100,7 @@ var callback = function(result, job) {
   console.log("foo: " + result);
 };
 wq.add(job, 0, callback);
-{% endhighlight %}
+```
 
 `args` and `result` can be any object, list or value. Transferable objects can be transferred by adding them to the optional `transferList` argument using `transferList.push(object)` inside the job function. The optional `job` parameter passed to `callback` is an object containing a unique number called `id` that is incremented after every `add` call and `start` which contains the execution start date to calculate execution time. 
 
@@ -118,7 +118,7 @@ When moving the map at 60 frames per second, about every 10th frame will lead to
 
 The jumping problem can be solved relatively easy. Just save `job.id` of the most recently finished job, and if a job with a higher number did finish before, discard the frame. To spread out the updates more evenly among those 60 frames, adaptive throttling can be implemented using the `delay` property. If `delay` is greater than 0, a new job is started no earlier than `delay` milliseconds after starting the previous job. 
 
-{% highlight javascript %}
+```javascript
 var wq = new workerQueue();
 wq.maxWorkers = 4;
 var lastID = -1;
@@ -144,7 +144,7 @@ function update() {
   wq.queue.splice(0,wq.queue.length);
   wq.add(job, false, callback);
 }
-{% endhighlight %}
+```
 
 I'm using a nice little first order IIR lowpass filter (the term with the 0.2 and 0.8) so the system will find an update rate it can keep up with without rapidly reacting to sudden performance drops. Good thing I studied signal theory for years so I know how it is called. 
 

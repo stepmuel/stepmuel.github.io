@@ -27,7 +27,7 @@ Being dependent on the Jekyll setup on GitHub also limits my possibilities of se
 
 After recognizing the layout problems of my website on my phone and evaluating the solutions mentioned above, I came up with this relatively short JavaScript. To make all CamelCase words with 18 characters or longer wrappable, I simply add `camelWrap(document.body)` into the `onload` attribute of the `<body>` tag. 
 
-{% highlight javascript %}
+```javascript
 function camelWrap(node) {
   camelWrapUnicode(node);
   node.innerHTML = node.innerHTML.replace(/\u200B/g, "<wbr>");
@@ -42,7 +42,7 @@ function camelWrapUnicode(node) {
       camelWrapUnicode(node);
     }
 }
-{% endhighlight %}
+```
 
 First, the function traverses all DOM text nodes and inserts a zero width space where appropriate. This modification already produces the desired visual result, but has the aforementioned problems with copy and paste. In a second pass, it replaces the unicode characters with the HTML tag. Doing the initial substitution on the HTML code directly would break links, and inserting the tag in the first pass would require a few more lines to modify the DOM tree. Using `innerHTML` might decrease site load speeds, but it is good enough for me. 
 
