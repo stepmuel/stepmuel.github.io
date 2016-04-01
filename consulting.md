@@ -9,6 +9,11 @@ I write iOS apps since 2013 and have been writing web based administration tools
 
 # Portfolio
 
+**SugarPrompt** *2016*
+
+* Blood glucose level management app for diabetics
+* [Product website](http://sugarprompt.heap.ch/)
+
 **Sius AG** *2015*
 
 * Evaluation and prototyping of distributed computing platform
@@ -17,11 +22,13 @@ I write iOS apps since 2013 and have been writing web based administration tools
 
 * Telemetry system for player behavior analysis in Minecraft
 * Scientific analysis of the collected data
+* [Project website](http://heapcraft.net/)
 
 **Schindler Elevator CO.** *2013 – 2014*
 
 * iOS app development for internal use by field technicians
 * Developed server backend, sync solution and online administration frontend
+* [Project description](https://dl.dropboxusercontent.com/u/6726740/schindler/index.html)
 
 **Skybotix AG** *2012*
 
