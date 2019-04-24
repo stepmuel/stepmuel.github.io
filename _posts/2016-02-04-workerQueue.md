@@ -150,8 +150,4 @@ I'm using a nice little first order IIR lowpass filter (the term with the 0.2 an
 
 # Source Code and Demo
 
-The source code is available on [GitHub](https://github.com/stepmuel/WorkerQueue). There is also an [interactive demo](http://heapcraft.net/mapminerdemo/) of the [Map Miner](http://heapcraft.net/?p=mapminer) data visualizer I initially created the API for. The page also contains a short user manual and the source code. The demo might take a couple of seconds to load. It only uses a single worker thread. 
-
-
-
-
+The source code is available on [GitHub](https://github.com/stepmuel/WorkerQueue). This API was initially created for [MapMiner](https://github.com/stepmuel/mapminer), an interactive data visualizer to explore player behavior in Minecraft: [demo1](https://heapcraft.net/mapminer/) (3.4MB), [demo2](https://heapcraft.net/mapminer/?dataURL=data/hc.json) (18.8MB). The demos might take a couple of seconds to load. They only uses a single worker thread.

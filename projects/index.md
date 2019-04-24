@@ -7,7 +7,7 @@ In case you are wondering what I was up to for the last 10 years, here is a summ
 
 # GraphMiner and MapMiner
 
-While working on [HeapCraft](http://heapcraft.net/), I created a bunch of data visualization tools to explore the collected data and create graphics for my papers and presentations. [MapMiner](http://heapcraft.net/?p=mapminer) shows player positions over time and space, while [GraphMiner](http://heapcraft.net/?p=graphminer) shows relationships between players. Both tools are HTML based web apps written in JavaScript. 
+While working on [HeapCraft](http://heapcraft.net/), I created a bunch of data visualization tools to explore the collected data and create graphics for my papers and presentations. [MapMiner](https://github.com/HivemindAG/app-backend) shows player positions over time and space, while [GraphMiner](https://github.com/stepmuel/graphminer) shows relationships between players. Both tools are HTML based web apps written in JavaScript. 
 
 # Classify Minecraft Plugin
 
