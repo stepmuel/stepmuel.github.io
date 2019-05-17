@@ -54,12 +54,14 @@ That's it. Our new patch format:
 
 A JavaScript implementation of DeltaPatch can be found in the [deltalib](https://github.com/stepmuel/deltalib) repository on github in `lib/utils.js`. If you want to implement the protocol yourself, the following pseudo code snippets might be helpful.
 
-    # helpers
-    function isMergeable(v)
-    function clone(v)
-    function cloneWithoutNull(v)
-    function empty(o)
-    function equals(a, b)
+```js
+// Helpers
+function isMergeable(v) { … }
+function clone(v) { … }
+function cloneWithoutNull(v) { … }
+function empty(o) { … }
+function equals(a, b) { … }
+```
 
 `isMergeable(v)` returns whether `v` is a dictionary.
 
@@ -71,46 +73,50 @@ A JavaScript implementation of DeltaPatch can be found in the [deltalib](https:/
 
 `equals(a, b)` returns wether `a` and `b` represent the same data (deep compare).
 
-    function patch(d, p) {
-      for (var k in p) {
-        var v = p[k]
-        if (v === null) {
-          delete d[k]
-        } else if (isMergeable(v) && isMergeable(d[k])) {
-          patch(d[k], v)
-        } else {
-          d[k] = cloneWithoutNull(v)
-        }
-      }
+```js
+function patch(d, p) {
+  for (var k in p) {
+    var v = p[k]
+    if (v === null) {
+      delete d[k]
+    } else if (isMergeable(v) && isMergeable(d[k])) {
+      patch(d[k], v)
+    } else {
+      d[k] = cloneWithoutNull(v)
     }
+  }
+}
+```
 
 `patch(d, p)` applies patch `p` to mergeable `d`.
 
-    function diff(objA, objB) {
-      var out = {}
-      var keys = <all keys either in objA or in objB>
-      for (var key in keys) {
-        var a = objA[key]
-        var b = objB[key]
-        if (typeof a == 'undefined') {
+```js
+function diff(objA, objB) {
+  var out = {}
+  var keys = <all keys either in objA or in objB>
+  for (var key in keys) {
+    var a = objA[key]
+    var b = objB[key]
+    if (typeof a == 'undefined') {
+      out[key] = b
+    } else if (typeof b == 'undefined') {
+      out[key] = null
+    } else {
+      if (isMergeable(a) && isMergeable(b)) {
+        var d = diff(a, b)
+        if (!empty(d)) {
+          out[key] = d
+        }
+      } else {
+        if (!equals(a, b)) {
           out[key] = b
-        } else if (typeof b == 'undefined') {
-          out[key] = null
-        } else {
-          if (isMergeable(a) && isMergeable(b)) {
-            var d = diff(a, b)
-            if (!empty(d)) {
-              out[key] = d
-            }
-          } else {
-            if (!equals(a, b)) {
-              out[key] = b
-            }
-          }
         }
       }
-      return out
     }
+  }
+  return out
+}
+```
 
 `diff(a, b)` will return a patch which when applied to `a` will result in `b`.
 
