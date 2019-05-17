@@ -31,17 +31,19 @@ With some small additions, a new function `patch(target, source)` can be defined
 
 That's it. Our new patch format:
 
-    // the initial data store
-    var s = {a: "a", b: false, c: 36, d: {a: "a", b: false}};
-    // the delta
-    var d = {
-      b: null, // remove key
-      c: 37, // change value
-      d: {b: null}, // patch dictionary
-      e: true // add key
-    };
-    // result of patch(s, d)
-    {a: "a", c: 37, d: {a: "a"}, e: true};
+```js
+// The initial data store
+var s = {a: "a", b: false, c: 36, d: {a: "a", b: false}};
+// The delta
+var d = {
+  b: null, // remove key
+  c: 37, // change value
+  d: {b: null}, // patch dictionary
+  e: true // add key
+};
+// Result of patch(s, d)
+{a: "a", c: 37, d: {a: "a"}, e: true};
+```
 
 # Pitfalls
 
