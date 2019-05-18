@@ -17,38 +17,38 @@ For a PHP project I am working on, I need to access some data compressed using L
 
 ```php
 function lz4decode($in, $offset = 0) {
-	$len = strlen($in);
-	$out = '';
-	$i = $offset;
-	$take = function() use ($in, &$i) {
-		return ord($in[$i++]);
-	};
-	while ($i < $len) {
-		$token = $take();
-		$nLiterals = $token >> 4;
-		if ($nLiterals === 15) {
-			while (true) {
-				$nLiterals += $add = $take();
-				if ($add !== 255) break;
-			}
-		}
-		$out .= substr($in, $i, $nLiterals);
-		$i += $nLiterals;
-		if ($i === $len) break;
-		$offset = $take() | $take() << 8;
-		$matchLength = ($token & 0xF) + 4;
-		if ($matchLength === 19) {
-			while (true) {
-				$matchLength += $add = $take();
-				if ($add !== 255) break;
-			}
-		}
-		$j = strlen($out) - $offset;
-		while ($matchLength--) {
-			$out .= $out[$j++];
-		}
-	}
-	return $out;
+  $len = strlen($in);
+  $out = '';
+  $i = $offset;
+  $take = function() use ($in, &$i) {
+    return ord($in[$i++]);
+  };
+  while ($i < $len) {
+    $token = $take();
+    $nLiterals = $token >> 4;
+    if ($nLiterals === 15) {
+      while (true) {
+        $nLiterals += $add = $take();
+        if ($add !== 255) break;
+      }
+    }
+    $out .= substr($in, $i, $nLiterals);
+    $i += $nLiterals;
+    if ($i === $len) break;
+    $offset = $take() | $take() << 8;
+    $matchLength = ($token & 0xF) + 4;
+    if ($matchLength === 19) {
+      while (true) {
+        $matchLength += $add = $take();
+        if ($add !== 255) break;
+      }
+    }
+    $j = strlen($out) - $offset;
+    while ($matchLength--) {
+      $out .= $out[$j++];
+    }
+  }
+  return $out;
 }
 ```
 
@@ -80,7 +80,7 @@ This process repeats up to the last sequence, which ends with a literal and cont
 
 ```php
 $take = function() use ($in, &$i) {
-	return ord($in[$i++]);
+  return ord($in[$i++]);
 };
 
 ```
@@ -92,10 +92,10 @@ This concept is inspired by Node.js, but works very well in PHP (even though it 
 ```php
 $nLiterals = $token >> 4;
 if ($nLiterals === 15) {
-	while (true) {
-		$nLiterals += $add = $take();
-		if ($add !== 255) break;
-	}
+  while (true) {
+    $nLiterals += $add = $take();
+    if ($add !== 255) break;
+  }
 }
 ```
 
@@ -125,10 +125,10 @@ A poor man's `unpack` to read a little endian `uint16_t`.
 ```php
 $matchLength = ($token & 0xF) + 4;
 if ($matchLength === 19) {
-	while (true) {
-		$matchLength += $add = $take();
-		if ($add !== 255) break;
-	}
+  while (true) {
+    $matchLength += $add = $take();
+    if ($add !== 255) break;
+  }
 }
 ```
 
@@ -137,7 +137,7 @@ Then `matchLength` is calculated analogously to `nLiterals`, but with the low ni
 ```php
 $j = strlen($out) - $offset;
 while ($matchLength--) {
-	$out .= $out[$j++];
+  $out .= $out[$j++];
 }
 ```
 
