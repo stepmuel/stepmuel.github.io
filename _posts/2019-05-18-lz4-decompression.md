@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LZ4 decompression in pure PHP"
+title: "LZ4 Decompression in Pure PHP"
 date: 2019-05-18 10:37:21 +0200
 tags: php
 ---
