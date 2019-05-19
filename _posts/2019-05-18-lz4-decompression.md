@@ -5,7 +5,7 @@ date: 2019-05-18 10:37:21 +0200
 tags: php
 ---
 
-For a PHP project I am working on, I need to access some data compressed using LZ4. Since I couldn't find the code I was looking for online, I decided to write my own. The result is just around 35 lines of code.
+For a PHP project I am working on, I need to access some data compressed using LZ4. Since I couldn't find the code I was looking for online, I decided to write my own. The result is just around 30 lines of code.
 
 # The Code
 
@@ -23,28 +23,24 @@ function lz4decode($in, $offset = 0) {
   $take = function() use ($in, &$i) {
     return ord($in[$i++]);
   };
+  $addOverflow = function(&$sum) use ($take) {
+    do {
+      $sum += $summand = $take();
+    } while ($summand === 0xFF);
+  };
   while ($i < $len) {
     $token = $take();
     $nLiterals = $token >> 4;
-    if ($nLiterals === 15) {
-      while (true) {
-        $nLiterals += $add = $take();
-        if ($add !== 255) break;
-      }
-    }
+    if ($nLiterals === 0xF) $addOverflow($nLiterals);
     $out .= substr($in, $i, $nLiterals);
     $i += $nLiterals;
     if ($i === $len) break;
     $offset = $take() | $take() << 8;
-    $matchLength = ($token & 0xF) + 4;
-    if ($matchLength === 19) {
-      while (true) {
-        $matchLength += $add = $take();
-        if ($add !== 255) break;
-      }
-    }
+    $matchlength = $token & 0xF;
+    if ($matchlength === 0xF) $addOverflow($matchlength);
+    $matchlength += 4;
     $j = strlen($out) - $offset;
-    while ($matchLength--) {
+    while ($matchlength--) {
       $out .= $out[$j++];
     }
   }
@@ -60,11 +56,11 @@ The LZ4 specifications can be found in the [official documentation](https://gith
 
 The graphic above shows the bytes within a *sequence*. A LZ4 compressed *block* contains one or more sequences. A sequence contains new bytes to add to the output (literals included in the sequence) and a copy instruction (to output previous bytes again).
 
-The first byte starts with a *token*, which consists of two 4-bit nibbles. The first (high) nibble contains the number of literals `nLiterals`. If the nibble is "full" (maximum value), the value "swaps over" to a new byte. As long as the nibble or the following bytes contain their maximum value, the next byte is also part of the sum.
+The first byte starts with a *token*, which consists of two 4-bit nibbles. The first (high) nibble contains the number of literals `nLiterals`. If the nibble is "full" (maximum value = 0xF = 15), the value "flows over" to a new byte. As long as the nibble or the following bytes contain their maximum value (= 0xFF = 255), the next byte is also part of the sum.
 
 The token and (optional) `nLiteral` summands are followed by the given number of byte literals, which are added to the output buffer. 
 
-The copy instruction starts with a 16-bit little endian `offset`, indicating how far back in the output buffer we have to go to find a match for the next output. That value is followed by the overflow summands of the `matchLength` value, which is constructed like `nLiterals`, but with an additional constant summand of 4 (`minmatch`). The match is copied to the output buffer.
+The copy instruction starts with a 16-bit little endian `offset`, indicating how far back in the output buffer we have to go to find a match for the next output. That value is followed by the overflow summands of the `matchLength` value, which is constructed like `nLiterals`, but with an additional constant summand of 4 (= `minmatch`). The match is copied to the output buffer.
 
 This process repeats up to the last sequence, which ends with a literal and contains no copy instruction.
 
@@ -87,16 +83,21 @@ $take = function() use ($in, &$i) {
 
 This [anonymous function](https://www.php.net/manual/en/functions.anonymous.php) is used to get the next byte from the input sequence. The current byte sequence index `$i` from the outer scope is captured (or inherited) by-reference, so the advancement of the byte sequence persists.
 
-This concept is inspired by Node.js, but works very well in PHP (even though it looks a bit unusual).
+This concept is inspired by Node.js, but works very well in PHP (even though it looks a bit unusual). Using an anonymous function avoids global namespace pollution by limiting visibility to the local function scope.
+
+```php
+$addOverflow = function(&$sum) use ($take) {
+  do {
+    $sum += $summand = $take();
+  } while ($summand === 0xFF);
+};
+```
+
+Another helper function used to read the overflow of length values. It adds all available "full" bytes and the first non-full byte to `$sum`.
 
 ```php
 $nLiterals = $token >> 4;
-if ($nLiterals === 15) {
-  while (true) {
-    $nLiterals += $add = $take();
-    if ($add !== 255) break;
-  }
-}
+if ($nLiterals === 0xF) $addOverflow($nLiterals);
 ```
 
 Get the high nibble for the `nLiterals` value. Add additional bytes when necessary.
@@ -107,7 +108,6 @@ $i += $nLiterals;
 ```
 
 Copy the literals to the output buffer. Adjust the index accordingly, since we didn't use `$take()`.
-
 
 ```php
 if ($i === $len) break;
@@ -121,18 +121,13 @@ $offset = $take() | $take() << 8;
 
 A poor man's `unpack` to read a little endian `uint16_t`.
 
-
 ```php
-$matchLength = ($token & 0xF) + 4;
-if ($matchLength === 19) {
-  while (true) {
-    $matchLength += $add = $take();
-    if ($add !== 255) break;
-  }
-}
+$matchlength = $token & 0xF;
+if ($matchlength === 0xF) $addOverflow($matchlength);
+$matchlength += 4;
 ```
 
-Then `matchLength` is calculated analogously to `nLiterals`, but with the low nibble and the minimum value of `4` added at the beginning.
+`matchLength` is calculated analogously to `nLiterals`, but with the low nibble and the minimum length of `4` (`minmatch`) added at the end.
 
 ```php
 $j = strlen($out) - $offset;
