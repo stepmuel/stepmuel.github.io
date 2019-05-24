@@ -9,6 +9,7 @@ Those are some of the project I've been working on since I started university in
 
 * Korg Volca Sample MIDI remote (Mac app).
 * Line drawing… game?
+* Arduino based magic USB Host / MIDI / Bluetooth / Wi-Fi box.
 * Hypertext inspired protocol to define menu structures.
 * File browser for encrypted [Arq backups](https://www.arqbackup.com/).
 
