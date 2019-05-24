@@ -3,7 +3,19 @@ layout: page
 title: Projects
 ---
 
-In case you are wondering what I was up to for the last 10 years, here is a summary of some project I've been working on. 
+Those are some of the project I've been working on since I started university in 2005 (most recents first).
+
+# Low Cost DIY Irrigation System
+
+I used a ESP8266 Wi-Fi module to emulate button presses on a remote for switchable wall sockets. That way I can turn on a pump which pumps water from a big bucket to a hose with holes. Created to (successfully) save my tomatoes while I was on vacation in Summer 2018. Watch [a video](https://youtu.be/hkj-t89wiRA).
+
+# tex2ast
+
+PHP script to parse LaTeX into an abstract syntax tree, with support for user defined commands / macros. Used to convert existing university lecture materials to Wordpress, so they can be used in online e-learning platforms. Checkout it out [on GitHub](https://github.com/stepmuel/tex2ast).
+
+# DeltaSync Protocol
+
+A simple JSON based protocol to synchronize state between multiple clients and a backend. I have used it to enable Google like interactive collaboration on a online course registration tool, and a graphical path planning interface for drones. For more information, check out [DeltaPatch](http://heap.ch/blog/2017/03/14/deltapatch/) and [deltalib](https://github.com/stepmuel/deltalib).
 
 # GraphMiner and MapMiner
 
