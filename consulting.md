@@ -9,12 +9,12 @@ I write iOS apps since 2013 and have been writing web based administration tools
 
 # Portfolio
 
-**Asset Scan App** *2018* (solo project)
+**Inventory Management System** *2018* (solo project)
 
-* Inventory management system with Salesforce export
-* Barcode scanning asset survey app for iOS and Android
+* Barcode scanning survey app for iOS and Android
 * Back office web interface with user management, PDF reports
 * Custom vector based signature format
+* [Product description](http://tmp.heap.ch/vaillant/)
 
 **Hivemind AG** *2017 – 2019 (21 months)*
 

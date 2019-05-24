@@ -5,6 +5,15 @@ title: Projects
 
 Those are some of the project I've been working on since I started university in 2005 (most recents first).
 
+# Unfinished Projects
+
+* Korg Volca Sample MIDI remote (Mac app).
+* Line drawing… game?
+* Hypertext inspired protocol to define menu structures.
+* File browser for encrypted [Arq backups](https://www.arqbackup.com/).
+
+While those projects are not ready for public release, I'd like to talk about them with you!
+
 # Low Cost DIY Irrigation System
 
 I used a ESP8266 Wi-Fi module to emulate button presses on a remote for switchable wall sockets. That way I can turn on a pump which pumps water from a big bucket to a hose with holes. Created to (successfully) save my tomatoes while I was on vacation in Summer 2018. Watch [a video](https://youtu.be/hkj-t89wiRA).
