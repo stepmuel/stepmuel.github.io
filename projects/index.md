@@ -10,10 +10,13 @@ Those are some of the project I've been working on since I started university in
 * Korg Volca Sample MIDI remote (Mac app).
 * Line drawing… game?
 * Arduino based magic USB Host / MIDI / Bluetooth / Wi-Fi box.
-* Hypertext inspired protocol to define menu structures.
 * File browser for encrypted [Arq backups](https://www.arqbackup.com/).
 
 While those projects are not ready for public release, I'd like to talk about them with you!
+
+# HyperMenu
+
+HyperMenu is a hypertext inspired protocol to define menu structures. You can find the specification and examples [on GitHub](https://github.com/stepmuel/hypermenu). I also made an [iOS client](http://hypermenu.heap.ch/) which serves as reference implementation.
 
 # Low Cost DIY Irrigation System
 
