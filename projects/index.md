@@ -16,7 +16,7 @@ While those projects are not ready for public release, I'd like to talk about th
 
 # HyperMenu
 
-HyperMenu is a hypertext inspired protocol to define menu structures. You can find the specification and examples [on GitHub](https://github.com/stepmuel/hypermenu). I also made an [iOS client](http://hypermenu.heap.ch/) which serves as reference implementation.
+HyperMenu is a hypertext inspired protocol to define menu structures. You can find the specification and examples [on GitHub](https://github.com/stepmuel/hypermenu). I also made an [iOS client](http://hypermenu.heap.ch/), a [trailer](https://www.youtube.com/watch?v=WlLCZ32LJoM), and wrote a short [blog post](https://heap.ch/blog/2019/06/27/hypermenu/).
 
 # Low Cost DIY Irrigation System
 
