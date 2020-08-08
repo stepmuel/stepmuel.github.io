@@ -1,1 +1,1 @@
-Hi, my name is Stephan Müller. I studied Electrical Engineering and Information Technology at [ETH Zürich](https://www.ethz.ch/). I work as a [freelance](/consulting) software developer with focus on iOS, web and embedded systems. 
+Hi, my name is Stephan Müller. I studied Electrical Engineering and Information Technology at [ETH Zürich](https://www.ethz.ch/). I do iOS programming professionally, and web and embedded development for fun.

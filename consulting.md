@@ -5,9 +5,16 @@ header: Müller Computer Engineering
 permalink: /consulting/
 ---
 
-I write iOS apps since 2013 and have been writing web based administration tools and services for over 10 years. I have a diverse background in both industry and scientific research. If you need an iOS app (iPhone, iPad, Apple TV), a web app, a Minecraft plugin, or something else that fits my profile, send me an email: stephan<span class="nospam">@</span>heap.ch
+I write iOS apps since 2013 and have been creating web based administration tools and services <!-- since before 2005 --> for over 15 years. I have experience working in both industry and scientific research. <!-- If you need an iOS app (iPhone, iPad, Apple TV), a web app, a Minecraft plugin, or something else that fits my profile, send me an email: stephan<span class="nospam">@</span>heap.ch -->
+
+I am not accepting any new freelance work at this time.
 
 # Portfolio
+
+**Filemo** *2019* (solo project)
+
+* Browse backups created by [Arq](https://www.arqbackup.com/) from iOS
+* [Product website](https://filemo.heap.ch/)
 
 **Inventory Management System** *2018* (solo project)
 

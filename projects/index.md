@@ -5,15 +5,6 @@ title: Projects
 
 Those are some of the project I've been working on since I started university in 2005 (most recents first).
 
-# Unfinished Projects
-
-* Korg Volca Sample MIDI remote (Mac app).
-* Line drawing… game?
-* Arduino based magic USB Host / MIDI / Bluetooth / Wi-Fi box.
-* File browser for encrypted [Arq backups](https://www.arqbackup.com/).
-
-While those projects are not ready for public release, I'd like to talk about them with you!
-
 # HyperMenu
 
 HyperMenu is a hypertext inspired protocol to define menu structures. You can find the specification and examples [on GitHub](https://github.com/stepmuel/hypermenu). I also made an [iOS client](http://hypermenu.heap.ch/), a [trailer](https://www.youtube.com/watch?v=WlLCZ32LJoM), and wrote a short [blog post](https://heap.ch/blog/2019/06/27/hypermenu/).
